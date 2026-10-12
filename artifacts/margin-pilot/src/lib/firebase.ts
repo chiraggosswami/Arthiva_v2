@@ -3,9 +3,12 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
-// Support overriding via environment variables so keys don't have to be hardcoded in repository files
+// Load key from environment variable, resolving placeholders
+const rawFileKey = firebaseConfig.apiKey || '';
+const isPlaceholder = !rawFileKey || rawFileKey.includes('PLACEHOLDER') || rawFileKey.startsWith('your_');
+
 const resolvedConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || firebaseConfig.apiKey,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || (isPlaceholder ? '' : rawFileKey),
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || firebaseConfig.authDomain,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || firebaseConfig.projectId,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || firebaseConfig.storageBucket,

@@ -222,7 +222,8 @@ Text to translate:
       provider: 'gemini-3.8-flash',
     };
   } catch (err: unknown) {
-    console.error('Gemini translation server error:', err instanceof Error ? err.message : err);
+    const safeError = (err instanceof Error ? err.message : String(err)).replace(/AIza[0-9A-Za-z-_]{35}/g, '[REDACTED]');
+    console.error('Gemini translation server error:', safeError);
     // Safe graceful fallback
     return {
       translatedText: text,
@@ -240,8 +241,16 @@ Text to translate:
  */
 export function createTranslateMiddleware() {
   return async (req: IncomingMessage, res: ServerResponse) => {
-    // Enable standard CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers.origin as string | undefined;
+    const host = req.headers.host as string | undefined;
+
+    // Secure CORS: Disallow wildcard access from arbitrary external origins
+    if (origin) {
+      const isAllowedOrigin = !origin || origin.includes(host || '') || origin.includes('localhost') || origin.includes('127.0.0.1');
+      if (isAllowedOrigin) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+      }
+    }
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 

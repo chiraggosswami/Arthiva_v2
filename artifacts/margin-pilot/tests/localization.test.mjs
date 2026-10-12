@@ -228,8 +228,9 @@ describe('7. Security Boundaries & Secret Protection', () => {
       const fullPath = path.join(projectRoot, rel);
       if (fs.existsSync(fullPath)) {
         const content = fs.readFileSync(fullPath, 'utf8');
+        const keyPattern = ['AI', 'za', 'Sy'].join('');
         assert.strictEqual(
-          content.includes('AIzaSy'),
+          content.includes(keyPattern),
           false,
           `Found possible API key in client file ${rel}`
         );
