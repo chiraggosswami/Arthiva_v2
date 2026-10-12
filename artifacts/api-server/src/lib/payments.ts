@@ -64,7 +64,7 @@ export class MockPaymentProvider implements PaymentProvider {
   }
 
   verifyWebhookSignature(rawBody: Buffer | string, signature: string, secret?: string): boolean {
-    const webhookSecret = secret || process.env.RAZORPAY_WEBHOOK_SECRET || 'rzp_mock_webhook_secret';
+    const webhookSecret = secret || process.env.RAZORPAY_WEBHOOK_SECRET || '';
     const bodyStr = Buffer.isBuffer(rawBody) ? rawBody.toString('utf-8') : rawBody;
 
     const expectedSignature = crypto

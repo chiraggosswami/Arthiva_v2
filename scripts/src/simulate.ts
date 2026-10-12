@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 // Configuration
 const API_URL = process.env.API_URL || 'http://localhost:3000';
 const STORE_ID = process.env.STORE_ID || 'demo-store';
-const SHOPIFY_SECRET = process.env.SHOPIFY_SECRET || 'shopify_test_secret';
+const SHOPIFY_SECRET = process.env.SHOPIFY_SECRET || process.env.SHOPIFY_WEBHOOK_SECRET || '';
 const TOTAL_ORDERS = Number(process.env.COUNT || 25);
 const RATE_PER_SEC = Number(process.env.RATE || 10);
 const SIMULATE_COURIER = process.env.COURIER !== 'false';

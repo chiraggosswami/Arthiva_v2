@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'margin-pilot-jwt-super-secret-dev-key-32chars';
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
 
 export function hashPassword(password: string): string {
   const salt = crypto.randomBytes(16).toString('hex');

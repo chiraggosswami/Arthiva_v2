@@ -4,7 +4,7 @@ import * as schema from "./schema";
 
 const { Pool } = pg;
 
-const dbUrl = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/margin_pilot";
+const dbUrl = process.env.DATABASE_URL || "";
 
 export let pool: any;
 export let db: any;

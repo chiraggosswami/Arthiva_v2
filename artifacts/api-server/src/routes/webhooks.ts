@@ -73,7 +73,7 @@ router.post('/webhooks/shopify/:storeId', async (req: Request, res: Response, ne
       return;
     }
 
-    const secret = store.shopifySharedSecret || process.env.SHOPIFY_WEBHOOK_SECRET || 'shopify_test_secret';
+    const secret = store.shopifySharedSecret || process.env.SHOPIFY_WEBHOOK_SECRET || '';
     if (hmacHeader && !verifyShopifyHmac(rawBody, hmacHeader, secret)) {
       res.status(401).json({ error: { code: 'INVALID_SIGNATURE', message: 'Shopify HMAC verification failed' } });
       return;
@@ -136,7 +136,7 @@ router.post('/webhooks/woocommerce/:storeId', async (req: Request, res: Response
       return;
     }
 
-    const secret = store.woocommerceWebhookSecret || process.env.WOOCOMMERCE_WEBHOOK_SECRET || 'wc_test_secret';
+    const secret = store.woocommerceWebhookSecret || process.env.WOOCOMMERCE_WEBHOOK_SECRET || '';
     if (signatureHeader && !verifyWooCommerceSignature(rawBody, signatureHeader, secret)) {
       res.status(401).json({ error: { code: 'INVALID_SIGNATURE', message: 'WooCommerce signature verification failed' } });
       return;
